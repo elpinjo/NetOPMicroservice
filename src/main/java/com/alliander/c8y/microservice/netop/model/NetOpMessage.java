@@ -5,5 +5,8 @@ public class NetOpMessage {
 	public int protocolVersion;
 	
 	public String serialNumber;
+	
+	public DataElement[] dataElements;
+	
 
 }
