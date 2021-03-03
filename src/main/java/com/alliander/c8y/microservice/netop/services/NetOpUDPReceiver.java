@@ -14,6 +14,7 @@ import com.cumulocity.model.ID;
 import com.cumulocity.rest.representation.identity.ExternalIDRepresentation;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
+import com.cumulocity.sdk.client.event.EventApi;
 import com.cumulocity.sdk.client.identity.IdentityApi;
 import com.cumulocity.sdk.client.inventory.InventoryApi;
 import com.cumulocity.sdk.client.measurement.MeasurementApi;
@@ -34,9 +35,14 @@ public class NetOpUDPReceiver {
 	@ServiceActivator(inputChannel = "udpChannel")
 	public void processNetOpMessage(byte[] in) {
 		
-		System.out.println("Echo: " + new String(in));
+		String myMessage = "Content: ";
+		for (byte b: in) {
+			myMessage = myMessage.concat(Integer.toHexString(b).toUpperCase());
+		}
+		System.out.println(myMessage);
 		
-		MessageDecoder netopDecoder = new MessageDecoder();
+		
+		/*MessageDecoder netopDecoder = new MessageDecoder();
 		
 		NetOpMessage myMessage = netopDecoder.decode(in);
 		
@@ -55,7 +61,7 @@ public class NetOpUDPReceiver {
 		myMeasurement.setDateTime(new DateTime());
 		myMeasurement.set(myMessage);
 				
-		measurementAPI.create(myMeasurement);
+		measurementAPI.create(myMeasurement);*/
 		
 	}
 	
@@ -93,6 +99,9 @@ public class NetOpUDPReceiver {
 	
 	@Autowired
 	private MeasurementApi measurementAPI;
+	
+	@Autowired
+	private EventApi eventAPI;
 	
 	@Autowired
 	private InventoryApi inventoryAPI;
